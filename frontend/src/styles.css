@@ -16,3 +16,18 @@ body {
     margin: 0 auto;
     padding: 20px;
 }
+
+/* Snackbar Custom Styles */
+.success-snackbar {
+    background-color: #43a047 !important;
+    color: white !important;
+}
+
+.error-snackbar {
+    background-color: #d32f2f !important;
+    color: white !important;
+}
+
+.mat-mdc-snack-bar-container .mdc-snackbar__label {
+    font-weight: 500;
+}

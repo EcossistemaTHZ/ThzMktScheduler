@@ -45,12 +45,22 @@
         "EDIT": "Editar",
         "SAVE": "Salvar",
         "CANCEL": "Cancelar",
-        "CONFIRM_DELETE": "Você tem certeza que deseja excluir?"
+        "CONFIRM_DELETE": "Você tem certeza que deseja excluir?",
+        "CLOSE": "Fechar"
+    },
+    "SUCCESS": {
+        "USER_CREATE": "Usuário criado com sucesso!",
+        "USER_UPDATE": "Usuário atualizado com sucesso!",
+        "USER_DELETE": "Usuário excluído com sucesso!",
+        "CAMPAIGN_CREATE": "Campanha agendada com sucesso!",
+        "CAMPAIGN_DELETE": "Campanha excluída com sucesso!"
     },
     "ERRORS": {
         "USER_CREATE": "Erro ao criar usuário",
         "USER_UPDATE": "Erro ao atualizar usuário",
         "USER_DELETE": "Erro ao excluir usuário",
-        "CAMPAIGN_CREATE": "Erro ao criar campanha"
+        "CAMPAIGN_CREATE": "Erro ao criar campanha",
+        "CAMPAIGN_DELETE": "Erro ao excluir campanha",
+        "LOAD_DATA": "Erro ao carregar dados"
     }
 }

@@ -45,12 +45,22 @@
         "EDIT": "Edit",
         "SAVE": "Save",
         "CANCEL": "Cancel",
-        "CONFIRM_DELETE": "Are you sure you want to delete?"
+        "CONFIRM_DELETE": "Are you sure you want to delete?",
+        "CLOSE": "Close"
+    },
+    "SUCCESS": {
+        "USER_CREATE": "User created successfully!",
+        "USER_UPDATE": "User updated successfully!",
+        "USER_DELETE": "User deleted successfully!",
+        "CAMPAIGN_CREATE": "Campaign scheduled successfully!",
+        "CAMPAIGN_DELETE": "Campaign deleted successfully!"
     },
     "ERRORS": {
         "USER_CREATE": "Error creating user",
         "USER_UPDATE": "Error updating user",
         "USER_DELETE": "Error deleting user",
-        "CAMPAIGN_CREATE": "Error creating campaign"
+        "CAMPAIGN_CREATE": "Error creating campaign",
+        "CAMPAIGN_DELETE": "Error deleting campaign",
+        "LOAD_DATA": "Error loading data"
     }
 }

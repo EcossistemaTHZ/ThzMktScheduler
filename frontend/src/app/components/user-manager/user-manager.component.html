@@ -25,7 +25,8 @@
                         <mat-icon>{{ isEditing ? 'save' : 'person_add' }}</mat-icon>
                         {{ (isEditing ? 'COMMON.SAVE' : 'USER_MANAGER.ADD') | translate }}
                     </button>
-                    <button mat-button type="button" color="warn" class="add-btn" *ngIf="isEditing" (click)="cancelEdit()">
+                    <button mat-button type="button" color="warn" class="add-btn" *ngIf="isEditing"
+                        (click)="cancelEdit()">
                         {{ 'COMMON.CANCEL' | translate }}
                     </button>
                 </div>
@@ -40,7 +41,7 @@
         </mat-card-header>
         <mat-card-content>
             <div class="table-container">
-                <table mat-table [dataSource]="users" class="mat-elevation-z0 full-width">
+                <table mat-table [dataSource]="dataSource" class="mat-elevation-z0 full-width">
 
                     <ng-container matColumnDef="name">
                         <th mat-header-cell *matHeaderCellDef> {{ 'USER_MANAGER.NAME' | translate }} </th>
