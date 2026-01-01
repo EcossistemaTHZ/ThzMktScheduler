@@ -78,7 +78,7 @@ class Router
 
         foreach ($this->routes as $route) {
             // Convert route parameters {id} to regex
-            $pattern = preg_replace('/\{([a-zA-Z0-9_]+)\}/', '(?P<$1>[^/]+)', $route['path']);
+            $pattern = preg_replace('/\{(\w+)\}/', '(?P<$1>[^/]+)', $route['path']);
             $pattern = "#^{$pattern}$#";
 
             if ($route['method'] === $method && preg_match($pattern, $path, $matches)) {

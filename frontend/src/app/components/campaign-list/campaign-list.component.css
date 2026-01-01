@@ -1,0 +1,37 @@
+.campaign-card {
+    margin-top: 20px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.table-container {
+    overflow-x: auto;
+    margin-top: 16px;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.empty-cell {
+    padding: 40px;
+    text-align: center;
+    color: #666;
+}
+
+.pending {
+    background-color: #fef3c7 !important;
+    color: #92400e !important;
+}
+
+.sent {
+    background-color: #d1fae5 !important;
+    color: #065f46 !important;
+}
+
+.failed {
+    background-color: #fee2e2 !important;
+    color: #991b1b !important;
+}
