@@ -54,6 +54,8 @@ $router->delete('/api/campaigns/{id}', [$campaignController, 'delete']);
 // Users
 $router->get('/api/users', [$userController, 'index']);
 $router->post('/api/users', [$userController, 'create']);
+$router->put('/api/users/{id}', [$userController, 'update']);
+$router->delete('/api/users/{id}', [$userController, 'delete']);
 
 // Dispatch
 $router->dispatch($_SERVER['REQUEST_METHOD'], $_SERVER['REQUEST_URI']);

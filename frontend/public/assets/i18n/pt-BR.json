@@ -5,6 +5,7 @@
     },
     "USER_MANAGER": {
         "TITLE_ADD": "Adicionar Usuário / Destino",
+        "TITLE_EDIT": "Editar Usuário / Destino",
         "TITLE_LIST": "Usuários Registrados",
         "NAME": "Nome",
         "FULL_NAME": "Nome Completo",
@@ -41,10 +42,15 @@
     "COMMON": {
         "ACTIONS": "Ações",
         "DELETE": "Excluir",
+        "EDIT": "Editar",
+        "SAVE": "Salvar",
+        "CANCEL": "Cancelar",
         "CONFIRM_DELETE": "Você tem certeza que deseja excluir?"
     },
     "ERRORS": {
         "USER_CREATE": "Erro ao criar usuário",
+        "USER_UPDATE": "Erro ao atualizar usuário",
+        "USER_DELETE": "Erro ao excluir usuário",
         "CAMPAIGN_CREATE": "Erro ao criar campanha"
     }
 }

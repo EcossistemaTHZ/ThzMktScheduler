@@ -31,7 +31,9 @@ import { User } from '../../models/campaign.model';
 export class UserManagerComponent implements OnInit {
   users: User[] = [];
   newUser: User = { name: '', email: '' };
-  displayedColumns: string[] = ['name', 'email'];
+  displayedColumns: string[] = ['name', 'email', 'actions'];
+  isEditing = false;
+  editingUserId?: number;
 
   constructor(
     private readonly api: ApiService,
@@ -49,12 +51,43 @@ export class UserManagerComponent implements OnInit {
   onSubmit(): void {
     if (!this.newUser.name || !this.newUser.email) return;
 
-    this.api.createUser(this.newUser).subscribe({
-      next: () => {
-        this.loadUsers();
-        this.newUser = { name: '', email: '' };
-      },
-      error: (err) => alert(this.translate.instant('ERRORS.USER_CREATE'))
-    });
+    if (this.isEditing && this.editingUserId) {
+      this.api.updateUser(this.editingUserId, this.newUser).subscribe({
+        next: () => {
+          this.loadUsers();
+          this.cancelEdit();
+        },
+        error: () => alert(this.translate.instant('ERRORS.USER_UPDATE'))
+      });
+    } else {
+      this.api.createUser(this.newUser).subscribe({
+        next: () => {
+          this.loadUsers();
+          this.newUser = { name: '', email: '' };
+        },
+        error: () => alert(this.translate.instant('ERRORS.USER_CREATE'))
+      });
+    }
+  }
+
+  onEdit(user: User): void {
+    this.isEditing = true;
+    this.editingUserId = user.id;
+    this.newUser = { ...user };
+  }
+
+  cancelEdit(): void {
+    this.isEditing = false;
+    this.editingUserId = undefined;
+    this.newUser = { name: '', email: '' };
+  }
+
+  onDelete(id: number): void {
+    if (confirm(this.translate.instant('COMMON.CONFIRM_DELETE'))) {
+      this.api.deleteUser(id).subscribe({
+        next: () => this.loadUsers(),
+        error: () => alert(this.translate.instant('ERRORS.USER_DELETE'))
+      });
+    }
   }
 }

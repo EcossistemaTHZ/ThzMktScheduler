@@ -45,4 +45,48 @@ class UserController extends BaseController
             }
         }
     }
+    /**
+     * Atualiza um usuário
+     * @param array $params
+     * @return void
+     */
+    public function update(array $params): void
+    {
+        $id = $params['id'];
+        $data = $this->getInput();
+
+        if (empty($data['name']) || empty($data['email'])) {
+            $this->jsonResponse(['error' => 'Nome e E-mail são obrigatórios'], 400);
+            return;
+        }
+
+        try {
+            $stmt = $this->db->prepare("UPDATE users SET name = :name, email = :email WHERE id = :id");
+            $stmt->execute([
+                ':name' => $data['name'],
+                ':email' => $data['email'],
+                ':id' => $id
+            ]);
+            $this->jsonResponse(['message' => 'Usuário atualizado com sucesso']);
+        } catch (\PDOException $e) {
+            $this->jsonResponse(['error' => 'Erro ao atualizar usuário'], 500);
+        }
+    }
+
+    /**
+     * Deleta um usuário
+     * @param array $params
+     * @return void
+     */
+    public function delete(array $params): void
+    {
+        $id = $params['id'];
+        try {
+            $stmt = $this->db->prepare("DELETE FROM users WHERE id = :id");
+            $stmt->execute([':id' => $id]);
+            $this->jsonResponse(['message' => 'Usuário excluído com sucesso']);
+        } catch (\PDOException $e) {
+            $this->jsonResponse(['error' => 'Erro ao excluir usuário'], 500);
+        }
+    }
 }

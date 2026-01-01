@@ -5,6 +5,7 @@
     },
     "USER_MANAGER": {
         "TITLE_ADD": "Add User / Destination",
+        "TITLE_EDIT": "Edit User / Destination",
         "TITLE_LIST": "Registered Users",
         "NAME": "Name",
         "FULL_NAME": "Full Name",
@@ -41,10 +42,15 @@
     "COMMON": {
         "ACTIONS": "Actions",
         "DELETE": "Delete",
+        "EDIT": "Edit",
+        "SAVE": "Save",
+        "CANCEL": "Cancel",
         "CONFIRM_DELETE": "Are you sure you want to delete?"
     },
     "ERRORS": {
         "USER_CREATE": "Error creating user",
+        "USER_UPDATE": "Error updating user",
+        "USER_DELETE": "Error deleting user",
         "CAMPAIGN_CREATE": "Error creating campaign"
     }
 }

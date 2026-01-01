@@ -20,12 +20,12 @@ export class ApiService {
     createCampaign(campaign: Campaign): Observable<any> {
         return this.http.post(`${this.apiUrl}/campaigns`, campaign);
     }
-    
+
     // Atualiza uma campanha
     updateCampaign(id: number, campaign: Campaign): Observable<any> {
         return this.http.put(`${this.apiUrl}/campaigns/${id}`, campaign);
     }
-    
+
     // Deleta uma campanha
     deleteCampaign(id: number): Observable<any> {
         return this.http.delete(`${this.apiUrl}/campaigns/${id}`);
@@ -35,9 +35,19 @@ export class ApiService {
     getUsers(): Observable<User[]> {
         return this.http.get<User[]>(`${this.apiUrl}/users`);
     }
-    
+
     // Cria um usuário
     createUser(user: User): Observable<any> {
         return this.http.post(`${this.apiUrl}/users`, user);
+    }
+
+    // Atualiza um usuário
+    updateUser(id: number, user: User): Observable<any> {
+        return this.http.put(`${this.apiUrl}/users/${id}`, user);
+    }
+
+    // Deleta um usuário
+    deleteUser(id: number): Observable<any> {
+        return this.http.delete(`${this.apiUrl}/users/${id}`);
     }
 }
