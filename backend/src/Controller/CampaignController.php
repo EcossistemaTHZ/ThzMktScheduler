@@ -6,6 +6,10 @@ namespace App\Controller;
 
 class CampaignController extends BaseController
 {
+    /**
+     * Lista todas as campanhas
+     * @return void
+     */
     public function index(): void
     {
         $stmt = $this->db->query("SELECT * FROM campaigns ORDER BY scheduled_at ASC");
@@ -13,6 +17,10 @@ class CampaignController extends BaseController
         $this->jsonResponse($campaigns);
     }
 
+    /**
+     * Cria uma campanha
+     * @return void
+     */
     public function create(): void
     {
         $data = $this->getInput();
@@ -33,6 +41,11 @@ class CampaignController extends BaseController
         $this->jsonResponse(['message' => 'Campaign created', 'id' => $this->db->lastInsertId()], 201);
     }
 
+    /**
+     * Atualiza uma campanha
+     * @param array $params
+     * @return void
+     */
     public function update(array $params): void
     {
         $id = $params['id'];
@@ -72,6 +85,11 @@ class CampaignController extends BaseController
         $this->jsonResponse(['message' => 'Campaign updated']);
     }
 
+    /**
+     * Deleta uma campanha
+     * @param array $params
+     * @return void
+     */
     public function delete(array $params): void
     {
         $id = $params['id'];

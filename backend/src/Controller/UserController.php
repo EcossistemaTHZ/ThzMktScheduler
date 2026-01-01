@@ -6,6 +6,10 @@ namespace App\Controller;
 
 class UserController extends BaseController
 {
+    /**
+     * Lista todos os usuários
+     * @return void
+     */
     public function index(): void
     {
         $stmt = $this->db->query("SELECT * FROM users ORDER BY name ASC");
@@ -13,6 +17,10 @@ class UserController extends BaseController
         $this->jsonResponse($users);
     }
 
+    /**
+     * Cria um usuário
+     * @return void
+     */
     public function create(): void
     {
         $data = $this->getInput();

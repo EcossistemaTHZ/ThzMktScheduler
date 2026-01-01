@@ -7,16 +7,37 @@ namespace App\Config;
 use PDO;
 use PDOException;
 
+/**
+ * Database class
+ * Cuida da conexão com o banco de dados
+ * @package App\Config
+ */
 class Database
 {
+    /**
+     * The database connection
+     * Conexão com o banco de dados
+     * @var PDO
+     */
     private ?PDO $connection = null;
 
+    /**
+     * Database constructor
+     * @param string $dsn
+     * @param string|null $username
+     * @param string|null $password
+     */
     public function __construct(
         private string $dsn = 'sqlite:' . __DIR__ . '/../../database.sqlite',
         private ?string $username = null,
         private ?string $password = null
     ) {}
-
+    
+    /**
+     * Returns the database connection
+     * Retorna a conexão com o banco de dados
+     * @return PDO
+     */
     public function getConnection(): PDO
     {
         if ($this->connection === null) {
@@ -37,7 +58,12 @@ class Database
 
         return $this->connection;
     }
-
+    
+    /**
+     * Initializes the database
+     * Cria as tabelas do banco de dados
+     * @return void
+     */
     public function initialize(): void
     {
         $pdo = $this->getConnection();
@@ -58,10 +84,12 @@ class Database
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
         )");
         
-        // Destinations implementation (Many-to-Many or simple list? Prompt implies 'destinos de envio', maybe just users?)
-        // Let's assume generic destinations for now, or link to users. 
-        // Given 'Cadastro de usuários e destinos', let's make a 'destinations' table or just assume Users ARE the destinations.
-        // I'll make a linkage table for scalable campaigns.
+        /*
+         * Implementação de destinos (Muitos-para-Muitos ou lista simples? O prompt sugere 'destinos de envio', talvez apenas usuários?)
+         * Vamos assumir destinos genéricos por enquanto, ou vincular a usuários.
+         * Dado 'Cadastro de usuários e destinos', vamos criar uma tabela de 'destinos' ou apenas assumir que os Usuários SÃO os destinos.
+         * Vou criar uma tabela de ligação para campanhas escaláveis.
+         */
         
         $pdo->exec("CREATE TABLE IF NOT EXISTS campaign_destinations (
             campaign_id INTEGER,

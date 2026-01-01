@@ -4,20 +4,40 @@ declare(strict_types=1);
 
 namespace App\Core;
 
+/**
+ * Router class
+ * Cuida do roteamento das requisições
+ * @package App\Core
+ */
 class Router
 {
     private array $routes = [];
 
+    /**
+     * Adiciona uma rota GET
+     * @param string $path
+     * @param callable|array $handler
+     */
     public function get(string $path, callable|array $handler): void
     {
         $this->add('GET', $path, $handler);
     }
 
+    /**
+     * Adiciona uma rota POST
+     * @param string $path
+     * @param callable|array $handler
+     */
     public function post(string $path, callable|array $handler): void
     {
         $this->add('POST', $path, $handler);
     }
 
+    /**
+     * Adiciona uma rota PUT
+     * @param string $path
+     * @param callable|array $handler
+     */
     public function put(string $path, callable|array $handler): void
     {
         $this->add('PUT', $path, $handler);
@@ -28,6 +48,11 @@ class Router
         $this->add('DELETE', $path, $handler);
     }
 
+    /**
+     * Adiciona uma rota DELETE
+     * @param string $path
+     * @param callable|array $handler
+     */
     private function add(string $method, string $path, callable|array $handler): void
     {
         $this->routes[] = [
@@ -37,14 +62,19 @@ class Router
         ];
     }
 
+    /**
+     * Dispatch a request to the appropriate handler
+     * @param string $method
+     * @param string $uri
+     */
     public function dispatch(string $method, string $uri): void
     {
-        // Simple optimization to strip query string and base path if needed
+        // Otimização simples para remover a query string e o caminho base se necessário
         $parsedUrl = parse_url($uri);
         $path = $parsedUrl['path'] ?? '/';
 
-        // Remove prefix if running in subdir (optional adjustment)
-        // For CLI server assume root
+        // Remove o prefixo se estiver rodando em um subdiretório (ajuste opcional)
+        // Para o servidor CLI, assume se a raiz
 
         foreach ($this->routes as $route) {
             // Convert route parameters {id} to regex
@@ -64,6 +94,11 @@ class Router
         $this->sendNotFound();
     }
 
+    /**
+     * Sends a 404 Not Found response
+     * Envia uma resposta 404 Not Found
+     * @return void
+     */
     private function sendNotFound(): void
     {
         header("HTTP/1.1 404 Not Found");

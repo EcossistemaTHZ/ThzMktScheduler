@@ -7,28 +7,36 @@ import { Campaign, User } from '../models/campaign.model';
     providedIn: 'root'
 })
 export class ApiService {
-    private apiUrl = 'http://localhost:8000/api'; // PHP Backend URL
+    private readonly apiUrl = 'http://localhost:8000/api'; // PHP Backend URL
 
-    constructor(private http: HttpClient) { }
+    constructor(private readonly http: HttpClient) { }
 
-    // Campaigns
+    // Lista as campanhas
     getCampaigns(): Observable<Campaign[]> {
         return this.http.get<Campaign[]>(`${this.apiUrl}/campaigns`);
     }
 
+    // Cria uma campanha
     createCampaign(campaign: Campaign): Observable<any> {
         return this.http.post(`${this.apiUrl}/campaigns`, campaign);
     }
-
+    
+    // Atualiza uma campanha
+    updateCampaign(id: number, campaign: Campaign): Observable<any> {
+        return this.http.put(`${this.apiUrl}/campaigns/${id}`, campaign);
+    }
+    
+    // Deleta uma campanha
     deleteCampaign(id: number): Observable<any> {
         return this.http.delete(`${this.apiUrl}/campaigns/${id}`);
     }
 
-    // Users
+    // Lista os usuários
     getUsers(): Observable<User[]> {
         return this.http.get<User[]>(`${this.apiUrl}/users`);
     }
-
+    
+    // Cria um usuário
     createUser(user: User): Observable<any> {
         return this.http.post(`${this.apiUrl}/users`, user);
     }
