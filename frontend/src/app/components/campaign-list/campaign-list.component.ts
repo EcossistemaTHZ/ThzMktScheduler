@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
@@ -29,6 +29,8 @@ import { Campaign } from '../../models/campaign.model';
   styleUrls: ['./campaign-list.component.css']
 })
 export class CampaignListComponent implements OnInit {
+  @Output() edit = new EventEmitter<Campaign>();
+
   campaigns: Campaign[] = [];
   displayedColumns: string[] = ['subject', 'scheduled_at', 'destinations', 'status', 'actions'];
 
@@ -56,6 +58,10 @@ export class CampaignListComponent implements OnInit {
         );
       }
     });
+  }
+
+  onEdit(campaign: Campaign): void {
+    this.edit.emit(campaign);
   }
 
   deleteCampaign(id: number): void {

@@ -1,12 +1,12 @@
-.form-card {
-    margin-bottom: 32px;
+.campaign-card {
+    margin-bottom: 24px;
     border-left: 4px solid #3f51b5;
 }
 
-.campaign-form {
+.campaign-form-layout {
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 8px;
     margin-top: 16px;
 }
 
@@ -14,25 +14,30 @@
     width: 100%;
 }
 
-.row {
+.form-row {
     display: flex;
     gap: 16px;
     align-items: center;
     flex-wrap: wrap;
 }
 
-.submit-btn {
-    height: 56px;
-    padding: 0 24px;
+.flex-grow {
+    flex-grow: 1;
+}
+
+.actions {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 22px;
 }
 
 @media (max-width: 600px) {
-    .row {
+    .form-row {
         flex-direction: column;
         align-items: stretch;
     }
 
-    .row mat-form-field {
-        width: 100%;
+    .actions {
+        margin-bottom: 0;
     }
 }

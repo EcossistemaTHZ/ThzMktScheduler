@@ -29,14 +29,10 @@ import { Campaign } from '../../models/campaign.model';
   styleUrls: ['./campaign-form.component.css']
 })
 export class CampaignFormComponent {
-  @Output() created = new EventEmitter<void>();
+  @Output() statusChanged = new EventEmitter<void>();
 
-  model: Campaign = {
-    subject: '',
-    message: '',
-    scheduled_at: '',
-    status: 'pending'
-  };
+  model: Campaign = this.initialModel();
+  isEditing = false;
 
   constructor(
     private readonly api: ApiService,
@@ -44,33 +40,69 @@ export class CampaignFormComponent {
     private readonly snackBar: MatSnackBar
   ) { }
 
-  onSubmit(): void {
-    this.api.createCampaign(this.model).subscribe({
-      next: () => {
-        this.snackBar.open(
-          this.translate.instant('SUCCESS.CAMPAIGN_CREATE'),
-          this.translate.instant('COMMON.CLOSE'),
-          { duration: 3000, horizontalPosition: 'end', verticalPosition: 'top' }
-        );
-        this.created.emit();
-        this.resetForm();
-      },
-      error: (err) => {
-        this.snackBar.open(
-          this.translate.instant('ERRORS.CAMPAIGN_CREATE'),
-          this.translate.instant('COMMON.CLOSE'),
-          { duration: 3000, panelClass: ['error-snackbar'], horizontalPosition: 'end', verticalPosition: 'top' }
-        );
-      }
-    });
-  }
-
-  resetForm(): void {
-    this.model = {
+  private initialModel(): Campaign {
+    return {
       subject: '',
       message: '',
       scheduled_at: '',
       status: 'pending'
     };
+  }
+
+  edit(campaign: Campaign): void {
+    this.isEditing = true;
+    this.model = { ...campaign };
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  cancelEdit(): void {
+    this.isEditing = false;
+    this.model = this.initialModel();
+  }
+
+  onSubmit(): void {
+    if (this.isEditing && this.model.id) {
+      this.api.updateCampaign(this.model.id, this.model).subscribe({
+        next: () => {
+          this.snackBar.open(
+            this.translate.instant('SUCCESS.CAMPAIGN_UPDATE'),
+            this.translate.instant('COMMON.CLOSE'),
+            { duration: 3000, horizontalPosition: 'end', verticalPosition: 'top' }
+          );
+          this.statusChanged.emit();
+          this.cancelEdit();
+        },
+        error: () => {
+          this.snackBar.open(
+            this.translate.instant('ERRORS.CAMPAIGN_UPDATE'),
+            this.translate.instant('COMMON.CLOSE'),
+            { duration: 3000, panelClass: ['error-snackbar'], horizontalPosition: 'end', verticalPosition: 'top' }
+          );
+        }
+      });
+    } else {
+      this.api.createCampaign(this.model).subscribe({
+        next: () => {
+          this.snackBar.open(
+            this.translate.instant('SUCCESS.CAMPAIGN_CREATE'),
+            this.translate.instant('COMMON.CLOSE'),
+            { duration: 3000, horizontalPosition: 'end', verticalPosition: 'top' }
+          );
+          this.statusChanged.emit();
+          this.resetForm();
+        },
+        error: () => {
+          this.snackBar.open(
+            this.translate.instant('ERRORS.CAMPAIGN_CREATE'),
+            this.translate.instant('COMMON.CLOSE'),
+            { duration: 3000, panelClass: ['error-snackbar'], horizontalPosition: 'end', verticalPosition: 'top' }
+          );
+        }
+      });
+    }
+  }
+
+  resetForm(): void {
+    this.model = this.initialModel();
   }
 }

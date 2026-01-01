@@ -1,49 +1,46 @@
-<mat-card class="campaign-card">
+<mat-card class="list-card">
     <mat-card-header>
         <mat-card-title>{{ 'CAMPAIGN_LIST.TITLE' | translate }}</mat-card-title>
     </mat-card-header>
-
     <mat-card-content>
         <div class="table-container">
             <table mat-table [dataSource]="campaigns" class="mat-elevation-z0 full-width">
 
-                <!-- Subject Column -->
                 <ng-container matColumnDef="subject">
                     <th mat-header-cell *matHeaderCellDef> {{ 'CAMPAIGN_LIST.COLUMN_SUBJECT' | translate }} </th>
                     <td mat-cell *matCellDef="let campaign"> {{campaign.subject}} </td>
                 </ng-container>
 
-                <!-- Scheduled At Column -->
                 <ng-container matColumnDef="scheduled_at">
                     <th mat-header-cell *matHeaderCellDef> {{ 'CAMPAIGN_LIST.COLUMN_SCHEDULED_AT' | translate }} </th>
-                    <td mat-cell *matCellDef="let campaign"> {{campaign.scheduled_at | date:'medium'}} </td>
+                    <td mat-cell *matCellDef="let campaign"> {{campaign.scheduled_at | date:'dd/MM/yyyy HH:mm'}} </td>
                 </ng-container>
 
-                <!-- Destinations Column -->
                 <ng-container matColumnDef="destinations">
                     <th mat-header-cell *matHeaderCellDef> {{ 'CAMPAIGN_LIST.COLUMN_DESTINATIONS' | translate }} </th>
                     <td mat-cell *matCellDef="let campaign"> {{ 'CAMPAIGN_LIST.ALL_USERS' | translate }} </td>
                 </ng-container>
 
-                <!-- Status Column -->
                 <ng-container matColumnDef="status">
                     <th mat-header-cell *matHeaderCellDef> {{ 'CAMPAIGN_LIST.COLUMN_STATUS' | translate }} </th>
                     <td mat-cell *matCellDef="let campaign">
                         <mat-chip-set>
-                            <mat-chip [ngClass]="campaign.status">
+                            <mat-chip [color]="campaign.status === 'sent' ? 'primary' : 'accent'">
                                 {{ 'CAMPAIGN_LIST.STATUS.' + (campaign.status | uppercase) | translate }}
                             </mat-chip>
                         </mat-chip-set>
                     </td>
                 </ng-container>
 
-                <!-- Actions Column -->
                 <ng-container matColumnDef="actions">
-                    <th mat-header-cell *matHeaderCellDef class="text-right"> {{ 'CAMPAIGN_LIST.COLUMN_ACTIONS' |
-                        translate }} </th>
+                    <th mat-header-cell *matHeaderCellDef class="text-right"> {{ 'COMMON.ACTIONS' | translate }} </th>
                     <td mat-cell *matCellDef="let campaign" class="text-right">
-                        <button mat-icon-button color="warn" (click)="deleteCampaign(campaign.id!)"
-                            [title]="'CAMPAIGN_LIST.DELETE' | translate">
+                        <button mat-icon-button color="primary" (click)="onEdit(campaign)"
+                            [title]="'COMMON.EDIT' | translate">
+                            <mat-icon>edit</mat-icon>
+                        </button>
+                        <button mat-icon-button color="warn" (click)="deleteCampaign(campaign.id)"
+                            [title]="'COMMON.DELETE' | translate">
                             <mat-icon>delete</mat-icon>
                         </button>
                     </td>
@@ -52,7 +49,6 @@
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-                <!-- Row shown when there is no matching data. -->
                 <tr class="mat-row" *matNoDataRow>
                     <td class="mat-cell empty-cell" colspan="5">{{ 'CAMPAIGN_LIST.NO_CAMPAIGNS' | translate }}</td>
                 </tr>

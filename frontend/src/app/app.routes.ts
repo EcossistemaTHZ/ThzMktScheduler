@@ -6,18 +6,18 @@ import { CampaignFormComponent } from './components/campaign-form/campaign-form.
 import { UserManagerComponent } from './components/user-manager/user-manager.component';
 
 @Component({
-    selector: 'app-dashboard',
-    standalone: true,
-    imports: [CampaignListComponent, CampaignFormComponent],
-    template: `
-    <app-campaign-form (created)="list.loadCampaigns()"></app-campaign-form>
-    <app-campaign-list #list></app-campaign-list>
+  selector: 'app-dashboard',
+  standalone: true,
+  imports: [CampaignListComponent, CampaignFormComponent],
+  template: `
+    <app-campaign-form #form (statusChanged)="list.loadCampaigns()"></app-campaign-form>
+    <app-campaign-list #list (edit)="form.edit($event)"></app-campaign-list>
   `
 })
 export class DashboardComponent { }
 
 export const routes: Routes = [
-    { path: '', component: DashboardComponent },
-    { path: 'users', component: UserManagerComponent },
-    { path: '**', redirectTo: '' }
+  { path: '', component: DashboardComponent },
+  { path: 'users', component: UserManagerComponent },
+  { path: '**', redirectTo: '' }
 ];

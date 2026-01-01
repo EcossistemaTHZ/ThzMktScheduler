@@ -16,6 +16,7 @@
     },
     "CAMPAIGN_FORM": {
         "TITLE": "Criar Nova Campanha",
+        "TITLE_EDIT": "Editar Campanha",
         "SUBJECT": "Assunto",
         "SUBJECT_PLACEHOLDER": "Digite o assunto do e-mail",
         "MESSAGE": "Conteúdo da Mensagem",
@@ -53,6 +54,7 @@
         "USER_UPDATE": "Usuário atualizado com sucesso!",
         "USER_DELETE": "Usuário excluído com sucesso!",
         "CAMPAIGN_CREATE": "Campanha agendada com sucesso!",
+        "CAMPAIGN_UPDATE": "Campanha atualizada com sucesso!",
         "CAMPAIGN_DELETE": "Campanha excluída com sucesso!"
     },
     "ERRORS": {
@@ -60,6 +62,7 @@
         "USER_UPDATE": "Erro ao atualizar usuário",
         "USER_DELETE": "Erro ao excluir usuário",
         "CAMPAIGN_CREATE": "Erro ao criar campanha",
+        "CAMPAIGN_UPDATE": "Erro ao atualizar campanha",
         "CAMPAIGN_DELETE": "Erro ao excluir campanha",
         "LOAD_DATA": "Erro ao carregar dados"
     }
