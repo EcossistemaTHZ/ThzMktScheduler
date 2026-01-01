@@ -1,0 +1,50 @@
+{
+    "APP": {
+        "DASHBOARD": "Painel",
+        "USERS_AND_DESTINATIONS": "Usuários e Destinos"
+    },
+    "USER_MANAGER": {
+        "TITLE_ADD": "Adicionar Usuário / Destino",
+        "TITLE_LIST": "Usuários Registrados",
+        "NAME": "Nome",
+        "FULL_NAME": "Nome Completo",
+        "EMAIL": "E-mail",
+        "EMAIL_ADDRESS": "Endereço de E-mail",
+        "ADD": "Adicionar",
+        "NO_USERS": "Nenhum usuário encontrado."
+    },
+    "CAMPAIGN_FORM": {
+        "TITLE": "Criar Nova Campanha",
+        "SUBJECT": "Assunto",
+        "SUBJECT_PLACEHOLDER": "Digite o assunto do e-mail",
+        "MESSAGE": "Conteúdo da Mensagem",
+        "MESSAGE_PLACEHOLDER": "Digite sua mensagem de marketing...",
+        "SCHEDULE_DATE": "Data de Agendamento",
+        "SCHEDULE_BUTTON": "Agendar Campanha"
+    },
+    "CAMPAIGN_LIST": {
+        "TITLE": "Campanhas Agendadas",
+        "COLUMN_SUBJECT": "Assunto",
+        "COLUMN_SCHEDULED_AT": "Agendada Para",
+        "COLUMN_DESTINATIONS": "Destinatários",
+        "COLUMN_STATUS": "Status",
+        "COLUMN_ACTIONS": "Ações",
+        "ALL_USERS": "Todos os Usuários (Demo)",
+        "DELETE": "Excluir",
+        "NO_CAMPAIGNS": "Nenhuma campanha agendada. Crie uma para começar.",
+        "STATUS": {
+            "PENDING": "Pendente",
+            "SENT": "Enviado",
+            "FAILED": "Falhou"
+        }
+    },
+    "COMMON": {
+        "ACTIONS": "Ações",
+        "DELETE": "Excluir",
+        "CONFIRM_DELETE": "Você tem certeza que deseja excluir?"
+    },
+    "ERRORS": {
+        "USER_CREATE": "Erro ao criar usuário",
+        "CAMPAIGN_CREATE": "Erro ao criar campanha"
+    }
+}

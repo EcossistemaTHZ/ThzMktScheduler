@@ -26,7 +26,7 @@ class UserController extends BaseController
         $data = $this->getInput();
 
         if (empty($data['name']) || empty($data['email'])) {
-            $this->jsonResponse(['error' => 'Name and Email are required'], 400);
+            $this->jsonResponse(['error' => 'Nome e E-mail são obrigatórios'], 400);
             return;
         }
 
@@ -36,12 +36,12 @@ class UserController extends BaseController
                 ':name' => $data['name'],
                 ':email' => $data['email']
             ]);
-            $this->jsonResponse(['message' => 'User created', 'id' => $this->db->lastInsertId()], 201);
+            $this->jsonResponse(['message' => 'Usuário criado com sucesso', 'id' => $this->db->lastInsertId()], 201);
         } catch (\PDOException $e) {
             if (str_contains($e->getMessage(), 'UNIQUE')) {
-                $this->jsonResponse(['error' => 'Email already exists'], 409);
+                $this->jsonResponse(['error' => 'E-mail já está cadastrado'], 409);
             } else {
-                $this->jsonResponse(['error' => 'Database error'], 500);
+                $this->jsonResponse(['error' => 'Erro no banco de dados'], 500);
             }
         }
     }

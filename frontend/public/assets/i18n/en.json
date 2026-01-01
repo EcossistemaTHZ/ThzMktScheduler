@@ -1,0 +1,50 @@
+{
+    "APP": {
+        "DASHBOARD": "Dashboard",
+        "USERS_AND_DESTINATIONS": "Users & Destinations"
+    },
+    "USER_MANAGER": {
+        "TITLE_ADD": "Add User / Destination",
+        "TITLE_LIST": "Registered Users",
+        "NAME": "Name",
+        "FULL_NAME": "Full Name",
+        "EMAIL": "Email",
+        "EMAIL_ADDRESS": "Email Address",
+        "ADD": "Add",
+        "NO_USERS": "No users found."
+    },
+    "CAMPAIGN_FORM": {
+        "TITLE": "Create New Campaign",
+        "SUBJECT": "Subject",
+        "SUBJECT_PLACEHOLDER": "Enter email subject",
+        "MESSAGE": "Message Content",
+        "MESSAGE_PLACEHOLDER": "Type your marketing message...",
+        "SCHEDULE_DATE": "Schedule Date",
+        "SCHEDULE_BUTTON": "Schedule Campaign"
+    },
+    "CAMPAIGN_LIST": {
+        "TITLE": "Scheduled Campaigns",
+        "COLUMN_SUBJECT": "Subject",
+        "COLUMN_SCHEDULED_AT": "Scheduled At",
+        "COLUMN_DESTINATIONS": "Destinations",
+        "COLUMN_STATUS": "Status",
+        "COLUMN_ACTIONS": "Actions",
+        "ALL_USERS": "All Users (Demo)",
+        "DELETE": "Delete",
+        "NO_CAMPAIGNS": "No campaigns scheduled. Create one to get started.",
+        "STATUS": {
+            "PENDING": "Pending",
+            "SENT": "Sent",
+            "FAILED": "Failed"
+        }
+    },
+    "COMMON": {
+        "ACTIONS": "Actions",
+        "DELETE": "Delete",
+        "CONFIRM_DELETE": "Are you sure you want to delete?"
+    },
+    "ERRORS": {
+        "USER_CREATE": "Error creating user",
+        "CAMPAIGN_CREATE": "Error creating campaign"
+    }
+}

@@ -6,6 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ApiService } from '../../services/api.service';
 import { Campaign } from '../../models/campaign.model';
 
@@ -19,7 +20,8 @@ import { Campaign } from '../../models/campaign.model';
     MatInputModule,
     MatButtonModule,
     MatCardModule,
-    MatIconModule
+    MatIconModule,
+    TranslateModule
   ],
   templateUrl: './campaign-form.component.html',
   styleUrls: ['./campaign-form.component.css']
@@ -34,7 +36,10 @@ export class CampaignFormComponent {
     status: 'pending'
   };
 
-  constructor(private readonly api: ApiService) { }
+  constructor(
+    private readonly api: ApiService,
+    private readonly translate: TranslateService
+  ) { }
 
   onSubmit(): void {
     this.api.createCampaign(this.model).subscribe({
@@ -42,7 +47,7 @@ export class CampaignFormComponent {
         this.created.emit();
         this.resetForm();
       },
-      error: (err) => alert('Error creating campaign')
+      error: (err) => alert(this.translate.instant('ERRORS.CAMPAIGN_CREATE'))
     });
   }
 

@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { ApiService } from '../../services/api.service';
 import { User } from '../../models/campaign.model';
 
@@ -21,7 +22,8 @@ import { User } from '../../models/campaign.model';
     MatButtonModule,
     MatTableModule,
     MatCardModule,
-    MatIconModule
+    MatIconModule,
+    TranslateModule
   ],
   templateUrl: './user-manager.component.html',
   styleUrls: ['./user-manager.component.css']
@@ -31,7 +33,10 @@ export class UserManagerComponent implements OnInit {
   newUser: User = { name: '', email: '' };
   displayedColumns: string[] = ['name', 'email'];
 
-  constructor(private readonly api: ApiService) { }
+  constructor(
+    private readonly api: ApiService,
+    private readonly translate: TranslateService
+  ) { }
 
   ngOnInit(): void {
     this.loadUsers();
@@ -49,7 +54,7 @@ export class UserManagerComponent implements OnInit {
         this.loadUsers();
         this.newUser = { name: '', email: '' };
       },
-      error: (err) => alert('Error creating user')
+      error: (err) => alert(this.translate.instant('ERRORS.USER_CREATE'))
     });
   }
 }

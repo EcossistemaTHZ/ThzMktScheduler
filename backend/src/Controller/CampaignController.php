@@ -27,7 +27,7 @@ class CampaignController extends BaseController
 
         // Validation (Basic)
         if (empty($data['subject']) || empty($data['message']) || empty($data['scheduled_at'])) {
-            $this->jsonResponse(['error' => 'Missing required fields'], 400);
+            $this->jsonResponse(['error' => 'Campos obrigatórios ausentes'], 400);
             return;
         }
 
@@ -38,7 +38,7 @@ class CampaignController extends BaseController
             ':scheduled_at' => $data['scheduled_at']
         ]);
 
-        $this->jsonResponse(['message' => 'Campaign created', 'id' => $this->db->lastInsertId()], 201);
+        $this->jsonResponse(['message' => 'Campanha criada com sucesso', 'id' => $this->db->lastInsertId()], 201);
     }
 
     /**
@@ -72,7 +72,7 @@ class CampaignController extends BaseController
         }
 
         if (empty($fields)) {
-            $this->jsonResponse(['message' => 'No changes'], 200);
+            $this->jsonResponse(['message' => 'Nenhuma alteração'], 200);
             return;
         }
 
@@ -82,7 +82,7 @@ class CampaignController extends BaseController
         $stmt = $this->db->prepare($sql);
         $stmt->execute($values);
 
-        $this->jsonResponse(['message' => 'Campaign updated']);
+        $this->jsonResponse(['message' => 'Campanha atualizada com sucesso']);
     }
 
     /**
@@ -95,6 +95,6 @@ class CampaignController extends BaseController
         $id = $params['id'];
         $stmt = $this->db->prepare("DELETE FROM campaigns WHERE id = :id");
         $stmt->execute([':id' => $id]);
-        $this->jsonResponse(['message' => 'Campaign deleted']);
+        $this->jsonResponse(['message' => 'Campanha excluída com sucesso']);
     }
 }
