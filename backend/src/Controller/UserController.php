@@ -4,22 +4,37 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use PDO;
+
 class UserController extends BaseController
 {
     /**
      * Lista todos os usuários
-     * @return void
      */
     public function index(): void
     {
         $stmt = $this->db->query("SELECT * FROM users ORDER BY name ASC");
-        $users = $stmt->fetchAll();
-        $this->jsonResponse($users);
+        $this->jsonResponse($stmt->fetchAll());
+    }
+
+    /**
+     * Retorna um usuário pelo id
+     * @param array $params
+     */
+    public function show(array $params): void
+    {
+        $user = $this->findById((int)$params['id']);
+
+        if ($user === null) {
+            $this->jsonResponse(['error' => 'Usuário não encontrado'], 404);
+            return;
+        }
+
+        $this->jsonResponse($user);
     }
 
     /**
      * Cria um usuário
-     * @return void
      */
     public function create(): void
     {
@@ -27,6 +42,11 @@ class UserController extends BaseController
 
         if (empty($data['name']) || empty($data['email'])) {
             $this->jsonResponse(['error' => 'Nome e E-mail são obrigatórios'], 400);
+            return;
+        }
+
+        if (!$this->isValidEmail($data['email'])) {
+            $this->jsonResponse(['error' => 'E-mail inválido'], 400);
             return;
         }
 
@@ -41,22 +61,33 @@ class UserController extends BaseController
             if (str_contains($e->getMessage(), 'UNIQUE')) {
                 $this->jsonResponse(['error' => 'E-mail já está cadastrado'], 409);
             } else {
+                error_log($e->getMessage());
                 $this->jsonResponse(['error' => 'Erro no banco de dados'], 500);
             }
         }
     }
+
     /**
      * Atualiza um usuário
      * @param array $params
-     * @return void
      */
     public function update(array $params): void
     {
-        $id = $params['id'];
+        $id = (int)$params['id'];
         $data = $this->getInput();
+
+        if ($this->findById($id) === null) {
+            $this->jsonResponse(['error' => 'Usuário não encontrado'], 404);
+            return;
+        }
 
         if (empty($data['name']) || empty($data['email'])) {
             $this->jsonResponse(['error' => 'Nome e E-mail são obrigatórios'], 400);
+            return;
+        }
+
+        if (!$this->isValidEmail($data['email'])) {
+            $this->jsonResponse(['error' => 'E-mail inválido'], 400);
             return;
         }
 
@@ -69,24 +100,48 @@ class UserController extends BaseController
             ]);
             $this->jsonResponse(['message' => 'Usuário atualizado com sucesso']);
         } catch (\PDOException $e) {
-            $this->jsonResponse(['error' => 'Erro ao atualizar usuário'], 500);
+            if (str_contains($e->getMessage(), 'UNIQUE')) {
+                $this->jsonResponse(['error' => 'E-mail já está cadastrado'], 409);
+            } else {
+                error_log($e->getMessage());
+                $this->jsonResponse(['error' => 'Erro ao atualizar usuário'], 500);
+            }
         }
     }
 
     /**
      * Deleta um usuário
      * @param array $params
-     * @return void
      */
     public function delete(array $params): void
     {
-        $id = $params['id'];
+        $id = (int)$params['id'];
+
+        if ($this->findById($id) === null) {
+            $this->jsonResponse(['error' => 'Usuário não encontrado'], 404);
+            return;
+        }
+
         try {
             $stmt = $this->db->prepare("DELETE FROM users WHERE id = :id");
             $stmt->execute([':id' => $id]);
             $this->jsonResponse(['message' => 'Usuário excluído com sucesso']);
         } catch (\PDOException $e) {
+            error_log($e->getMessage());
             $this->jsonResponse(['error' => 'Erro ao excluir usuário'], 500);
         }
+    }
+
+    /**
+     * Busca um usuário pelo id ou retorna null
+     * @param int $id
+     * @return array|null
+     */
+    private function findById(int $id): ?array
+    {
+        $stmt = $this->db->prepare("SELECT * FROM users WHERE id = :id");
+        $stmt->execute([':id' => $id]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return $row === false ? null : $row;
     }
 }

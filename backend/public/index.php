@@ -25,8 +25,16 @@ use App\Core\Router;
 use App\Controller\CampaignController;
 use App\Controller\UserController;
 
-// CORS Headers
-header("Access-Control-Allow-Origin: *");
+// Global exception handler: any uncaught error becomes a JSON 500
+set_exception_handler(function (Throwable $e) {
+    error_log($e->getMessage());
+    header('Content-Type: application/json');
+    http_response_code(500);
+    echo json_encode(['error' => 'Internal server error']);
+});
+
+// CORS Headers (origin configurable via env CORS_ORIGIN)
+header("Access-Control-Allow-Origin: " . (getenv('CORS_ORIGIN') ?: '*'));
 header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 
@@ -47,12 +55,14 @@ $userController = new UserController($db);
 // Routes
 // Campaigns
 $router->get('/api/campaigns', [$campaignController, 'index']);
+$router->get('/api/campaigns/{id}', [$campaignController, 'show']);
 $router->post('/api/campaigns', [$campaignController, 'create']);
 $router->put('/api/campaigns/{id}', [$campaignController, 'update']);
 $router->delete('/api/campaigns/{id}', [$campaignController, 'delete']);
 
 // Users
 $router->get('/api/users', [$userController, 'index']);
+$router->get('/api/users/{id}', [$userController, 'show']);
 $router->post('/api/users', [$userController, 'create']);
 $router->put('/api/users/{id}', [$userController, 'update']);
 $router->delete('/api/users/{id}', [$userController, 'delete']);

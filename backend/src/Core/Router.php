@@ -76,12 +76,19 @@ class Router
         // Remove o prefixo se estiver rodando em um subdiretório (ajuste opcional)
         // Para o servidor CLI, assume se a raiz
 
+        $pathMatched = false;
+
         foreach ($this->routes as $route) {
             // Convert route parameters {id} to regex
             $pattern = preg_replace('/\{(\w+)\}/', '(?P<$1>[^/]+)', $route['path']);
             $pattern = "#^{$pattern}$#";
 
-            if ($route['method'] === $method && preg_match($pattern, $path, $matches)) {
+            if (preg_match($pattern, $path, $matches)) {
+                $pathMatched = true;
+
+                if ($route['method'] !== $method) {
+                    continue;
+                }
 
                 // Filter numeric keys
                 $params = array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY);
@@ -91,7 +98,23 @@ class Router
             }
         }
 
+        if ($pathMatched) {
+            $this->sendMethodNotAllowed();
+            return;
+        }
+
         $this->sendNotFound();
+    }
+
+    /**
+     * Sends a 405 Method Not Allowed response
+     * @return void
+     */
+    private function sendMethodNotAllowed(): void
+    {
+        header("HTTP/1.1 405 Method Not Allowed");
+        header('Content-Type: application/json');
+        echo json_encode(['error' => 'Method not allowed']);
     }
 
     /**
@@ -102,6 +125,7 @@ class Router
     private function sendNotFound(): void
     {
         header("HTTP/1.1 404 Not Found");
+        header('Content-Type: application/json');
         echo json_encode(['error' => 'Route not found']);
     }
 }

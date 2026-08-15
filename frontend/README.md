@@ -1,59 +1,37 @@
-# Frontend
+# Frontend — React 19 + Vite
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.4.
+Frontend do MktScheduler em **React 19**, **TypeScript**, **Vite**, **MUI**, **TanStack Query**, **React Hook Form + Zod** e **react-i18next**.
 
-## Development server
-
-To start a local development server, run:
+## Scripts
 
 ```bash
-ng serve
+npm install     # instala dependências
+npm run dev     # dev server em http://localhost:4200 (proxy /api → http://localhost:18000)
+npm run build   # typecheck (tsc -b) + build de produção
+npm run preview # serve o build localmente
+npm test        # testes (Vitest + Testing Library)
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Proxy da API
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+Em dev, o Vite encaminha `/api/*` para o backend PHP. O alvo padrão é `http://localhost:18000`
+e pode ser alterado com a variável de ambiente `VITE_API_TARGET`:
 
 ```bash
-ng generate component component-name
+VITE_API_TARGET=http://localhost:18000 npm run dev
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+Em produção, defina `VITE_API_URL` (ex.: `https://api.exemplo.com/api`) no build, ou sirva o
+frontend pelo mesmo host do backend para usar o caminho relativo `/api`.
 
-```bash
-ng generate --help
+## Estrutura
+
 ```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
+src/
+  assets/i18n/        recursos de tradução (pt-BR, en)
+  components/         Layout, CampaignForm, CampaignList, UserManager, ConfirmDialog, FeedbackProvider
+  lib/                api (fetch tipado), types, format
+  pages/              DashboardPage, UsersPage
+  main.tsx            bootstrap (QueryClient + Router + i18n)
+  App.tsx             rotas
 ```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.

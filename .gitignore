@@ -1,5 +1,6 @@
 # Dependencies
 node_modules/
+.tools/
 jspm_packages/
 package-lock.json
 yarn.lock

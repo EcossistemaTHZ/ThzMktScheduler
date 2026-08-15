@@ -1,9 +1,9 @@
 {
-    "name": "cruds105-root",
+    "name": "thz-mkt-scheduler",
     "version": "1.0.0",
     "private": true,
     "scripts": {
-        "start:backend": "cd backend && php -S localhost:8000 -t public",
+        "start:backend": "node scripts/start-backend.js",
         "start:frontend": "cd frontend && npm start",
         "dev": "concurrently \"npm run start:backend\" \"npm run start:frontend\""
     },
