@@ -4,128 +4,88 @@ declare(strict_types=1);
 
 namespace App\Core;
 
-/**
- * Router class
- * Cuida do roteamento das requisições
- * @package App\Core
- */
-class Router
+use Psr\Http\Message\ResponseFactoryInterface;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Psr\Http\Server\RequestHandlerInterface;
+
+final class Router implements RequestHandlerInterface
 {
+    /**
+     * @var list<array{method: string, path: string, handler: RequestHandlerInterface}>
+     */
     private array $routes = [];
 
-    /**
-     * Adiciona uma rota GET
-     * @param string $path
-     * @param callable|array $handler
-     */
-    public function get(string $path, callable|array $handler): void
+    public function __construct(private readonly ResponseFactoryInterface $responseFactory)
+    {
+    }
+
+    public function get(string $path, RequestHandlerInterface $handler): void
     {
         $this->add('GET', $path, $handler);
     }
 
-    /**
-     * Adiciona uma rota POST
-     * @param string $path
-     * @param callable|array $handler
-     */
-    public function post(string $path, callable|array $handler): void
+    public function post(string $path, RequestHandlerInterface $handler): void
     {
         $this->add('POST', $path, $handler);
     }
 
-    /**
-     * Adiciona uma rota PUT
-     * @param string $path
-     * @param callable|array $handler
-     */
-    public function put(string $path, callable|array $handler): void
+    public function put(string $path, RequestHandlerInterface $handler): void
     {
         $this->add('PUT', $path, $handler);
     }
 
-    public function delete(string $path, callable|array $handler): void
+    public function delete(string $path, RequestHandlerInterface $handler): void
     {
         $this->add('DELETE', $path, $handler);
     }
 
-    /**
-     * Adiciona uma rota DELETE
-     * @param string $path
-     * @param callable|array $handler
-     */
-    private function add(string $method, string $path, callable|array $handler): void
+    private function add(string $method, string $path, RequestHandlerInterface $handler): void
     {
         $this->routes[] = [
             'method' => $method,
             'path' => $path,
-            'handler' => $handler
+            'handler' => $handler,
         ];
     }
 
-    /**
-     * Dispatch a request to the appropriate handler
-     * @param string $method
-     * @param string $uri
-     */
-    public function dispatch(string $method, string $uri): void
+    public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        // Otimização simples para remover a query string e o caminho base se necessário
-        $parsedUrl = parse_url($uri);
-        $path = $parsedUrl['path'] ?? '/';
-
-        // Remove o prefixo se estiver rodando em um subdiretório (ajuste opcional)
-        // Para o servidor CLI, assume se a raiz
-
+        $path = $request->getUri()->getPath();
+        $method = $request->getMethod();
         $pathMatched = false;
 
         foreach ($this->routes as $route) {
-            // Convert route parameters {id} to regex
-            $pattern = preg_replace('/\{(\w+)\}/', '(?P<$1>[^/]+)', $route['path']);
-            $pattern = "#^{$pattern}$#";
+            $pattern = (string) preg_replace('/\{(\w+)\}/', '(?P<$1>[^/]+)', $route['path']);
+            $pattern = '#^' . $pattern . '$#';
 
-            if (preg_match($pattern, $path, $matches)) {
-                $pathMatched = true;
-
-                if ($route['method'] !== $method) {
-                    continue;
-                }
-
-                // Filter numeric keys
-                $params = array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY);
-
-                call_user_func($route['handler'], $params);
-                return;
+            if (preg_match($pattern, $path, $matches) !== 1) {
+                continue;
             }
+
+            $pathMatched = true;
+
+            if ($route['method'] !== $method) {
+                continue;
+            }
+
+            $args = array_filter($matches, 'is_string', ARRAY_FILTER_USE_KEY);
+
+            return $route['handler']->handle($request->withAttribute('route', $args));
         }
 
-        if ($pathMatched) {
-            $this->sendMethodNotAllowed();
-            return;
-        }
-
-        $this->sendNotFound();
+        return $this->jsonError(
+            $pathMatched ? 405 : 404,
+            $pathMatched ? 'Method not allowed' : 'Route not found',
+        );
     }
 
-    /**
-     * Sends a 405 Method Not Allowed response
-     * @return void
-     */
-    private function sendMethodNotAllowed(): void
+    private function jsonError(int $status, string $message): ResponseInterface
     {
-        header("HTTP/1.1 405 Method Not Allowed");
-        header('Content-Type: application/json');
-        echo json_encode(['error' => 'Method not allowed']);
-    }
+        $response = $this->responseFactory->createResponse($status)
+            ->withHeader('Content-Type', 'application/json');
+        $response->getBody()->write(json_encode(['error' => $message], JSON_THROW_ON_ERROR));
 
-    /**
-     * Sends a 404 Not Found response
-     * Envia uma resposta 404 Not Found
-     * @return void
-     */
-    private function sendNotFound(): void
-    {
-        header("HTTP/1.1 404 Not Found");
-        header('Content-Type: application/json');
-        echo json_encode(['error' => 'Route not found']);
+        return $response;
     }
 }

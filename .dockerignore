@@ -1,0 +1,13 @@
+**/node_modules/
+**/vendor/
+**/dist/
+.git
+.gitignore
+.vscode
+.tools
+.phpunit.cache
+var/logs/*
+var/phpstan/*
+database.sqlite
+database.sqlite-shm
+database.sqlite-wal

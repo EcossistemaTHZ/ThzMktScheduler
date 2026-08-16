@@ -1,6 +1,6 @@
 import type { ApiMessage, Campaign, CampaignInput, User, UserInput } from './types';
 
-export const API_URL: string = import.meta.env.VITE_API_URL ?? '/api';
+export const API_URL: string = import.meta.env.VITE_API_URL ?? '/api/v1';
 
 export class ApiError extends Error {
   constructor(

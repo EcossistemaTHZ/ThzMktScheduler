@@ -27,7 +27,7 @@ describe('api', () => {
     fetchMock.mockResolvedValue(jsonResponse(campaigns));
 
     await expect(getCampaigns()).resolves.toEqual(campaigns);
-    expect(fetchMock).toHaveBeenCalledWith('/api/campaigns', expect.objectContaining({}));
+    expect(fetchMock).toHaveBeenCalledWith('/api/v1/campaigns', expect.objectContaining({}));
   });
 
   it('createCampaign envia POST com corpo JSON', async () => {

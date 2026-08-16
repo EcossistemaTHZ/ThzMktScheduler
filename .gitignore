@@ -1,5 +1,6 @@
 # Dependencies
 node_modules/
+backend/vendor/
 .tools/
 jspm_packages/
 package-lock.json
@@ -39,6 +40,13 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 *.sqlite
+
+# Runtime
+backend/var/
+
+# Tool caches
+backend/.phpunit.cache/
+backend/.php-cs-fixer.cache
 
 # Testing
 coverage/
